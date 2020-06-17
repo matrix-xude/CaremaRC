@@ -65,4 +65,5 @@ dependencies {
     implementation('com.squareup.retrofit2:converter-gson:2.6.1') {
         exclude group: 'com.google.code.gson'//从模块中删除
     }
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }

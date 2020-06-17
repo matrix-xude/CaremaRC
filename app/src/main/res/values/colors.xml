@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <color name="text_title">#C71585</color>
+    <color name="text_level_1">#000000</color>
+    <color name="text_level_2">#808080</color>
+
     <color name="transparent">#00000000</color><!-- 透明 -->
     <color name="white">#FFFFFF</color><!-- 白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--标题-->
+    <dimen name="text_title">22sp</dimen>
+    <!--第一级正文-->
+    <dimen name="text_level_1">17sp</dimen>
+    <!--第二级正文-->
+    <dimen name="text_level_2">15sp</dimen>
+    <!--第三级正文-->
+    <dimen name="text_level_3">12sp</dimen>
+
+    <!--标准左边距-->
+    <dimen name="margin_start_normal">10dp</dimen>
+    <!--标准右边距-->
+    <dimen name="margin_end_normal">10dp</dimen>
+    <!--标准上边距-->
+    <dimen name="margin_top_normal">15dp</dimen>
+    <!--标准下边距-->
+    <dimen name="margin_bottom_normal">10dp</dimen>
+
+
+</resources>
