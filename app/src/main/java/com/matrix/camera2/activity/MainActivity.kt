@@ -1,9 +1,11 @@
-package com.matrix.camera2
+package com.matrix.camera2.activity
 
+import android.content.Intent
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.matrix.camera2.activity.BaseActivity
+import com.matrix.camera2.R
 import com.matrix.camera2.decoration.LinearDecoration
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -33,6 +35,15 @@ class MainActivity : BaseActivity() {
                 helper.setText(R.id.tv_name, item)
             }
         }
+        adapter.onItemClickListener =
+            BaseQuickAdapter.OnItemClickListener { _, _, position ->
+                when(position){
+                    0 ->{
+                        val intent = Intent(this@MainActivity, CameraActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
         adapter.bindToRecyclerView(recycler_main)
     }
 
