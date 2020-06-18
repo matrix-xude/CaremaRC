@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
                 when (position) {
                     0 -> {
                         requestCameraStorage()
-                        ActivityCompat.shouldShowRequestPermissionRationale(this,"")
+                        ActivityCompat.shouldShowRequestPermissionRationale(this, "")
                     }
                 }
             }
@@ -69,28 +69,30 @@ class MainActivity : BaseActivity() {
     private fun requestCameraStorage() {
         val rxPermissions = RxPermissions(this)
         rxPermissions.setLogging(true)
-        rxPermissions.requestEach(Manifest.permission.CAMERA)
+        rxPermissions.requestEach(Manifest.permission.CAMERA,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .subscribe { permission ->
-                if (permission.name == (Manifest.permission.CAMERA)) {
-                    if (permission.granted) {
+                if (permission.granted) {
+                    if (permission.name==(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                         val intent = Intent(this@MainActivity, CameraActivity::class.java)
                         startActivity(intent)
-                    } else if (permission.shouldShowRequestPermissionRationale) {
-                        ToastUtil.showToast(this@MainActivity, "我再出弹出的选择框")
-                        Log.d("xxd", "拒绝没禁止弹框")
-                    } else {
-                        ToastUtil.showToast(this@MainActivity, "我应该去setting")
-                        Log.d("xxd", "禁止弹框")
-                        val intent = Intent()
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
-                        intent.data = Uri.fromParts(
-                            "package",
-                            this.packageName,
-                            null
-                        )
-                        this.startActivity(intent)
                     }
+                } else if (permission.shouldShowRequestPermissionRationale) {
+                    ToastUtil.showToast(this@MainActivity, "我再出弹出的选择框")
+                    Log.d("xxd", "拒绝没禁止弹框")
+                } else {
+                    ToastUtil.showToast(this@MainActivity, "我应该去setting")
+                    Log.d("xxd", "禁止弹框")
+                    val intent = Intent()
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
+                    intent.data = Uri.fromParts(
+                        "package",
+                        this.packageName,
+                        null
+                    )
+                    this.startActivity(intent)
                 }
             }
     }
