@@ -5,6 +5,7 @@ import android.view.TextureView
 import android.view.View
 import com.matrix.camera2.R
 import com.matrix.camera2.helper.Camera2Helper
+import com.matrix.camera2.helper.MyCamera2Helper
 import com.matrix.camera2.utils.LogUtil
 import com.matrix.camera2.utils.TimestampUtil
 import kotlinx.android.synthetic.main.activity_camera.*
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_camera.*
  */
 class CameraActivity : BaseActivity() {
 
-    lateinit var camera2Helper: Camera2Helper
+    lateinit var cameraHelper: Camera2Helper
 
     override fun getLayoutId(): Int {
         return R.layout.activity_camera
@@ -35,7 +36,7 @@ class CameraActivity : BaseActivity() {
 
     override fun initData() {
         super.initData()
-        camera2Helper = Camera2Helper(this,texture_view)
+        cameraHelper = Camera2Helper(this, texture_view)
     }
 
     fun testTextureViewParamChange() {

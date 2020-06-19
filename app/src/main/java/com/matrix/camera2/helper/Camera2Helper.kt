@@ -251,7 +251,7 @@ class Camera2Helper(val activity: Activity, val textureView: TextureView) {
         return when {
 //            bigEnough.size > 0 -> Collections.min(bigEnough, CompareSizesByArea())
 //            notBigEnough.size > 0 -> Collections.max(notBigEnough, CompareSizesByArea())
-            else -> sizeList[14]
+            else -> sizeList[0]
         }
     }
 
