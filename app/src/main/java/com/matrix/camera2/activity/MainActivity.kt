@@ -13,6 +13,9 @@ import com.matrix.camera2.R
 import com.matrix.camera2.decoration.LinearDecoration
 import com.matrix.camera2.utils.ToastUtil
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.Flowable
+import io.reactivex.Single
+import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -53,6 +56,7 @@ class MainActivity : BaseActivity() {
         adapter.bindToRecyclerView(recycler_main)
     }
 
+    @SuppressLint("CheckResult")
     private fun initRecycler() {
         recycler_main.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
