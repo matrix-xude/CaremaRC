@@ -16,6 +16,7 @@ import android.util.Size
 import android.view.Surface
 import android.view.TextureView
 import androidx.core.content.ContextCompat
+import com.matrix.camera2.utils.LogUtil
 import com.matrix.camera2.utils.ToastUtil
 
 /**
@@ -111,7 +112,7 @@ class Camera2Helper(val activity: Activity, val textureView: TextureView) {
                 mCameraId = id
                 mCameraCharacteristics = cameraCharacteristics
             }
-            Log.d("xxd", "可用的摄像头id $id")
+            LogUtil.d("可用的摄像头id $id")
         }
 
         val supportLevel =
@@ -153,21 +154,21 @@ class Camera2Helper(val activity: Activity, val textureView: TextureView) {
         Log.d("xxd","保存图片最优尺寸 ：${mSaveSize.width} * ${mSaveSize.height}, 比例  ${mSaveSize.width.toFloat() / mSaveSize.height}")
 
         //根据预览的尺寸大小调整TextureView的大小，保证画面不被拉伸
-        val orientation = activity.resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE){
-            val layoutParams = textureView.layoutParams
-            layoutParams.width = mPreviewSize.width
-            layoutParams.height = mPreviewSize.height
-            textureView.layoutParams = layoutParams
-//            textureView.setAspectRatio(mPreviewSize.width, mPreviewSize.height)
-        }
-        else{
-            val layoutParams = textureView.layoutParams
-            layoutParams.width = mPreviewSize.height
-            layoutParams.height = mPreviewSize.width
-            textureView.layoutParams = layoutParams
-//            textureView.setAspectRatio(mPreviewSize.height, mPreviewSize.width)
-        }
+//        val orientation = activity.resources.configuration.orientation
+//        if (orientation == Configuration.ORIENTATION_LANDSCAPE){
+//            val layoutParams = textureView.layoutParams
+//            layoutParams.width = mPreviewSize.width
+//            layoutParams.height = mPreviewSize.height
+//            textureView.layoutParams = layoutParams
+////            textureView.setAspectRatio(mPreviewSize.width, mPreviewSize.height)
+//        }
+//        else{
+//            val layoutParams = textureView.layoutParams
+//            layoutParams.width = mPreviewSize.height
+//            layoutParams.height = mPreviewSize.width
+//            textureView.layoutParams = layoutParams
+////            textureView.setAspectRatio(mPreviewSize.height, mPreviewSize.width)
+//        }
 
         mImageReader = ImageReader.newInstance(mPreviewSize.width, mPreviewSize.height, ImageFormat.JPEG, 1)
         mImageReader?.setOnImageAvailableListener(onImageAvailableListener, mCameraHandler)

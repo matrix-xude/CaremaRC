@@ -17,6 +17,10 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class MainActivity : BaseActivity() {
 

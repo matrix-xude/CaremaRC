@@ -3,6 +3,7 @@ package com.matrix.camera2.helper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
@@ -103,6 +104,8 @@ class MyCamera2Helper(val activity: Activity, val textureView: TextureView) {
             return
         }
 
+        initRotation()
+
         initSupportLevel()
 
 
@@ -114,9 +117,38 @@ class MyCamera2Helper(val activity: Activity, val textureView: TextureView) {
 
         openCamera(cameraManager, mCameraHandler)
 
-        initSession()
 
-        initRepeatingRequest()
+
+
+    }
+
+    /**
+     * 初始化旋转
+     */
+    private fun initRotation() {
+        val orientation = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
+        LogUtil.d("摄像头默认的旋转角度： ${orientation.toString()}")
+
+        val rotation = activity.windowManager.defaultDisplay.rotation
+        LogUtil.d("手机默认的旋转角度： $rotation")
+
+        val orientation2 = activity.resources.configuration.orientation
+        LogUtil.d("Activity默认的旋转角度： $orientation2")
+    }
+
+    /**
+     * 初始化所有摄像头尺寸的大小
+     */
+    private fun initSupportSize(characteristics: CameraCharacteristics) {
+        val configurationMap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+        val outputSizes = configurationMap?.getOutputSizes(ImageFormat.JPEG)
+        val outputSizesPre = configurationMap?.getOutputSizes(SurfaceTexture::class.java)
+//        for (sizePic in outputSizes!!){
+//            LogUtil.d("Picture输出格式,${sizePic.width}-${sizePic.height}")
+//        }
+//        for (sizePre in outputSizesPre!!){
+//            LogUtil.d("预览的大小,${sizePre.width}-${sizePre.height}")
+//        }
     }
 
     /**
@@ -165,7 +197,7 @@ class MyCamera2Helper(val activity: Activity, val textureView: TextureView) {
     private fun initSession() {
         val surface = Surface(textureView.surfaceTexture)
         mCameraDevice?.createCaptureSession(
-            arrayListOf(surface,mImageReader?.surface),
+            arrayListOf(surface),
             object : CameraCaptureSession.StateCallback() {
                 override fun onConfigureFailed(session: CameraCaptureSession) {
                     LogUtil.d("创建session失败！！")
@@ -174,6 +206,7 @@ class MyCamera2Helper(val activity: Activity, val textureView: TextureView) {
                 override fun onConfigured(session: CameraCaptureSession) {
                     LogUtil.d("创建session成功")
                     mCameraSession = session
+                    initRepeatingRequest()
                 }
             },
             mCameraHandler
@@ -193,6 +226,7 @@ class MyCamera2Helper(val activity: Activity, val textureView: TextureView) {
             override fun onOpened(camera: CameraDevice) {
                 LogUtil.d("相机创建成功")
                 mCameraDevice = camera
+                initSession()
             }
 
             // 如果textureView destroy，需要手动销毁相机，此方法不会自动调用
@@ -247,6 +281,7 @@ class MyCamera2Helper(val activity: Activity, val textureView: TextureView) {
 
         val cameraLensList = mutableListOf<Int?>() // 判断是否有前、后置摄像头的
         for (cameraId in cameraIdList) {
+            LogUtil.d("$cameraId")
             // 相机特征值，里面有摄像头方向，旋转度，可以拍照、预览的尺寸等大量信息，主要获取数据的类
             val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId)
 
@@ -261,6 +296,8 @@ class MyCamera2Helper(val activity: Activity, val textureView: TextureView) {
                 mCameraId = cameraId
                 mCameraCharacteristics = cameraCharacteristics
             }
+
+            initSupportSize(cameraCharacteristics)
         }
 
         // 包含前、后摄像头则可以切换
