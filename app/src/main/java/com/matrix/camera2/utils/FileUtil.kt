@@ -21,4 +21,15 @@ object FileUtil {
         // 如果存在，是目录则返回true，是文件则返回false，不存在则返回是否创建成功
         return file != null && if (file.exists()) file.isDirectory else file.mkdirs()
     }
+
+    fun createOrExistsFile(file: File?): Boolean {
+        if (file == null)
+            return false
+        return if (createOrExistsDir(file.parentFile)) {
+            file.createNewFile()
+            true
+        } else {
+            false
+        }
+    }
 }

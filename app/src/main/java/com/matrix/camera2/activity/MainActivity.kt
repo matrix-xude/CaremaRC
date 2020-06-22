@@ -24,7 +24,7 @@ import java.io.InputStreamReader
 
 class MainActivity : BaseActivity() {
 
-    private val strList = listOf("相机", "图库", "β射线", "等效原理", "自旋1/2")
+    private val strList = listOf("相机", "cameraX", "图库", "β射线", "等效原理", "自旋1/2")
     private lateinit var adapter: BaseQuickAdapter<String, BaseViewHolder>
 
     override fun getLayoutId(): Int {
@@ -55,6 +55,10 @@ class MainActivity : BaseActivity() {
                         requestCameraStorage()
                         ActivityCompat.shouldShowRequestPermissionRationale(this, "")
                     }
+                    1 -> {
+                        val intent = Intent(this@MainActivity, CameraXActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }
         adapter.bindToRecyclerView(recycler_main)
@@ -77,12 +81,14 @@ class MainActivity : BaseActivity() {
     private fun requestCameraStorage() {
         val rxPermissions = RxPermissions(this)
         rxPermissions.setLogging(true)
-        rxPermissions.requestEach(Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        rxPermissions.requestEach(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
             .subscribe { permission ->
                 if (permission.granted) {
-                    if (permission.name==(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    if (permission.name == (Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         val intent = Intent(this@MainActivity, CameraActivity::class.java)
                         startActivity(intent)
                     }
