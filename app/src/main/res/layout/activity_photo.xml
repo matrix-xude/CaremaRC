@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.PhotoActivity">
+
+    <TextView
+        android:id="@+id/tv_select"
+        style="@style/CommonText"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@color/dodgerblue"
+        android:padding="10dp"
+        android:text="选择图库" />
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp" />
+
+
+</LinearLayout>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="wrap_content">-2dp</dimen>
+    <dimen name="match_content">-1dp</dimen>
+
     <!--标题-->
     <dimen name="text_title">22sp</dimen>
     <!--第一级正文-->

@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 一般按钮文字的的样式-->
+    <style name="CommonText">
+        <item name="android:layout_width">@dimen/wrap_content</item>
+        <item name="android:layout_height">@dimen/wrap_content</item>
+        <item name="android:textSize">@dimen/text_level_1</item>
+        <item name="android:textColor">@color/text_level_1</item>
+    </style>
+
 </resources>

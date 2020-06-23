@@ -24,7 +24,7 @@ import java.io.InputStreamReader
 
 class MainActivity : BaseActivity() {
 
-    private val strList = listOf("相机", "cameraX", "图库", "β射线", "等效原理", "自旋1/2")
+    private val strList = listOf("camera2", "cameraX", "SelectPicture", "β射线", "等效原理", "自旋1/2")
     private lateinit var adapter: BaseQuickAdapter<String, BaseViewHolder>
 
     override fun getLayoutId(): Int {
@@ -57,6 +57,10 @@ class MainActivity : BaseActivity() {
                     }
                     1 -> {
                         val intent = Intent(this@MainActivity, CameraXActivity::class.java)
+                        startActivity(intent)
+                    }
+                    2-> {
+                        val intent = Intent(this@MainActivity, PhotoActivity::class.java)
                         startActivity(intent)
                     }
                 }
