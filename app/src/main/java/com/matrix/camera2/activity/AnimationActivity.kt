@@ -1,11 +1,18 @@
 package com.matrix.camera2.activity
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.TranslateAnimation
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.matrix.camera2.R
 import com.matrix.camera2.decoration.LinearDecoration
 import kotlinx.android.synthetic.main.activity_animation.*
+import kotlinx.android.synthetic.main.item_animation.view.*
 
 /**
  *    author : xxd
@@ -14,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_animation.*
  */
 class AnimationActivity : BaseActivity() {
 
-    val strList = listOf("translate", "rotate", "scale", "gradual", "mixture")
+    val strList = listOf("translate", "rotate", "scale", "gradual", "mixture", "stop")
     lateinit var baseQuickAdapter: BaseQuickAdapter<String, BaseViewHolder>
 
     override fun getLayoutId(): Int {
@@ -34,6 +41,15 @@ class AnimationActivity : BaseActivity() {
             object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_animation) {
                 override fun convert(helper: BaseViewHolder, item: String?) {
                     helper.setText(R.id.tv_name, item)
+                    helper.itemView.tv_name.setBackgroundColor(
+                        ContextCompat.getColor(
+                            mContext,
+                            when (helper.adapterPosition) {
+                                5 -> R.color.blueviolet
+                                else -> R.color.lightskyblue
+                            }
+                        )
+                    )
                 }
             }
         baseQuickAdapter.bindToRecyclerView(recycler_animation)
@@ -42,6 +58,12 @@ class AnimationActivity : BaseActivity() {
         baseQuickAdapter.setOnItemClickListener { _, _, position ->
             when (position) {
                 0 -> {
+                    AnimationUtils.loadAnimation(this, R.anim.translate_1).also {
+                        iv_vector.startAnimation(it)
+                    }
+                }
+                5 ->{
+                    iv_vector.clearAnimation()
                 }
             }
         }
