@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.matrix.camera2.R
 import com.matrix.camera2.decoration.LinearDecoration
+import com.matrix.camera2.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_animation.*
 import kotlinx.android.synthetic.main.item_animation.view.*
 
@@ -31,6 +32,9 @@ class AnimationActivity : BaseActivity() {
     override fun initView() {
         super.initView()
         initRecycler()
+        iv_vector.setOnClickListener{
+            ToastUtil.showToast(this,"我被点击了")
+        }
     }
 
     private fun initRecycler() {
