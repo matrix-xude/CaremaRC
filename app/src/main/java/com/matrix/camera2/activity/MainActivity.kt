@@ -63,6 +63,10 @@ class MainActivity : BaseActivity() {
                         val intent = Intent(this@MainActivity, PhotoActivity::class.java)
                         startActivity(intent)
                     }
+                    3-> {
+                        val intent = Intent(this@MainActivity, AnimationActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }
         adapter.bindToRecyclerView(recycler_main)
@@ -75,7 +79,7 @@ class MainActivity : BaseActivity() {
         val decoration = LinearDecoration.Builder().apply {
             left = 80
             right = 80
-            top = 70
+            top = 40
         }.build()
         recycler_main.addItemDecoration(decoration)
     }
