@@ -1,13 +1,11 @@
 package com.matrix.camera2.activity
 
-import android.animation.TimeInterpolator
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Animatable
+import android.animation.*
 import android.graphics.drawable.AnimationDrawable
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.scaleMatrix
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -17,19 +15,14 @@ import com.matrix.camera2.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_animation.*
 import kotlinx.android.synthetic.main.item_animation.view.*
 
-/**
- *    author : xxd
- *    date   : 2020/6/24
- *    desc   :
- */
-class AnimationActivity : BaseActivity() {
+class AnimatorActivity : BaseActivity() {
 
-    val strList =
+    private val strList =
         listOf("translate", "scale", "alpha", "rotate", "mixture", "stop", "animation-list")
     lateinit var baseQuickAdapter: BaseQuickAdapter<String, BaseViewHolder>
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_animation
+        return R.layout.activity_animator
     }
 
     override fun initView() {
@@ -71,47 +64,26 @@ class AnimationActivity : BaseActivity() {
     private fun initClick() {
         baseQuickAdapter.setOnItemClickListener { _, _, position ->
             when (position) {
-
                 0 -> {
-                    iv_vector.visibility = View.VISIBLE
-                    AnimationUtils.loadAnimation(this, R.anim.translate_2).also {
-                        iv_vector.startAnimation(it)
-                    }
+                    ObjectAnimator.ofFloat(iv_vector, "x", 0f, 700f,350f).apply {
+                        duration = 3000
+                        repeatCount = 0
+                        repeatMode = ValueAnimator.REVERSE
+                        interpolator = TimeInterpolator {
+                            when{
+                                it < 0.5f -> 1f
+                                else -> it+0.5f
+                            }
+                        }
+                    }.start()
                 }
                 1 -> {
-                    AnimationUtils.loadAnimation(this, R.anim.scale_1).also {
-                        iv_vector.startAnimation(it)
-                    }
-                }
-                2 -> {
-                    AnimationUtils.loadAnimation(this, R.anim.alpha_1).also {
-                        iv_vector.startAnimation(it)
-                    }
-                }
-                3 -> {
-                    AnimationUtils.loadAnimation(this, R.anim.rotate_1).also {
-                        iv_vector.startAnimation(it)
-                    }
-                }
-                4 -> {
-                    AnimationUtils.loadAnimation(this, R.anim.set_1).also {
-                        iv_vector.startAnimation(it)
-                    }
-                }
-                5 -> {
-                    iv_vector.clearAnimation()
-                }
-                6 -> {
-//                    iv_vector.setBackgroundResource(R.drawable.animation_list)
-//                    val animation = iv_vector.background
-//                    if (animation is Animatable)
-//                        animation.start()
-                    iv_vector.setImageBitmap(null)
+                    ObjectAnimator.ofFloat(iv_vector.apply { pivotX = iv_vector.width/2f }, "scaleX", 1f, 2f).apply {
 
-                    iv_vector.setBackgroundResource(R.drawable.animation_list)
-                    val animation = iv_vector.background
-                    if (animation is AnimationDrawable)
-                        animation.start()
+                        duration = 1500
+                        repeatCount = 3
+                        repeatMode = ValueAnimator.REVERSE
+                    }.start()
 
                 }
             }
