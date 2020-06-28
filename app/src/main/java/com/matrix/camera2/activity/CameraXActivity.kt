@@ -1,6 +1,7 @@
 package com.matrix.camera2.activity
 
 import android.content.Context
+import android.content.Intent
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.camera.core.*
@@ -133,6 +134,10 @@ class CameraXActivity : BaseActivity() {
                                     "拍照成功，保存在${photoFile.absolutePath}"
                                 )
                             }
+                            val intent =
+                                Intent(this@CameraXActivity, CanvasAnimatorActivity::class.java)
+                            intent.putExtra("photoPath", photoFile.absolutePath)
+                            startActivity(intent)
                         }
 
                         override fun onError(exception: ImageCaptureException) {

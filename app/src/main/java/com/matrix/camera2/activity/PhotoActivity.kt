@@ -1,5 +1,6 @@
 package com.matrix.camera2.activity
 
+import android.content.Intent
 import com.google.gson.Gson
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -56,7 +57,11 @@ class PhotoActivity : BaseActivity() {
                         for (localMedia in result) {
                             val toJson = gson.toJson(localMedia)
                             Logger.json(toJson)
-                            GlideUtil.loadNormal(iv_icon,localMedia.path)
+                            GlideUtil.loadNormal(iv_icon,localMedia.androidQToPath)
+
+                            val intent = Intent(this@PhotoActivity, CanvasAnimatorActivity::class.java)
+                            intent.putExtra("photoPath", localMedia.androidQToPath)
+                            startActivity(intent)
                         }
                     }
                 }

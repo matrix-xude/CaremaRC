@@ -71,6 +71,10 @@ class MainActivity : BaseActivity() {
                         val intent = Intent(this@MainActivity, AnimatorActivity::class.java)
                         startActivity(intent)
                     }
+                    5-> {
+                        val intent = Intent(this@MainActivity, CanvasAnimatorActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }
         adapter.bindToRecyclerView(recycler_main)
