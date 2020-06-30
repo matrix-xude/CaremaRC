@@ -46,15 +46,13 @@ class LinearDecoration private constructor(builder: Builder) : RecyclerView.Item
         var left = 0
         var right = 0
 
-        fun getNormalBuilder(): Builder {
-            return Builder().also {
+        fun buildNormal(): LinearDecoration {
+            return LinearDecoration(Builder().also {
                 it.top = 5
                 it.left = 10
                 it.right = 10
-            }
+            })
         }
-
-
 
         fun build(): LinearDecoration {
             return LinearDecoration(this)

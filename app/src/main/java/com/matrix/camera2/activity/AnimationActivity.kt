@@ -42,7 +42,7 @@ class AnimationActivity : BaseActivity() {
 
     private fun initRecycler() {
         recycler_animation.layoutManager = GridLayoutManager(this, 2)
-        recycler_animation.addItemDecoration(LinearDecoration.Builder().getNormalBuilder().build())
+        recycler_animation.addItemDecoration(LinearDecoration.Builder().buildNormal())
 
         baseQuickAdapter =
             object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_animation) {
