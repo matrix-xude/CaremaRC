@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="80dp"
+    android:id="@+id/ll_header"
+    android:orientation="vertical">
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_name"
+        style="@style/CommonText"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:background="@color/deepskyblue"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="站位专用" />
+</LinearLayout>

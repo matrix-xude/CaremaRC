@@ -25,7 +25,7 @@ import java.io.InputStreamReader
 class MainActivity : BaseActivity() {
 
     private val strList = listOf("camera2", "cameraX", "SelectPicture", "β射线", "等效原理",
-        "自旋1/2","recyclerView")
+        "自旋1/2","recyclerView","skinResult")
     private lateinit var adapter: BaseQuickAdapter<String, BaseViewHolder>
 
     override fun getLayoutId(): Int {
@@ -78,6 +78,10 @@ class MainActivity : BaseActivity() {
                     }
                     6-> {
                         val intent = Intent(this@MainActivity, RecyclerActivity::class.java)
+                        startActivity(intent)
+                    }
+                    7-> {
+                        val intent = Intent(this@MainActivity, SkinResultActivity::class.java)
                         startActivity(intent)
                     }
                 }
