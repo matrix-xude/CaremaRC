@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Test">
+        <attr name="test_color" format="color" />
+        <attr name="test_size" format="dimension" />
+        <attr name="test_drawable" format="reference" />
+        <attr name="test_width" format="dimension">
+            <enum name="max" value="-1" />
+            <enum name="min" value="-2" />
+        </attr>
+    </declare-styleable>
+
+</resources>

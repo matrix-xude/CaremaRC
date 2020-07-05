@@ -132,7 +132,7 @@ class AISkinView : View {
      * 初始化矩阵，必须在拿到view和backgroundBitmap 宽高之后调用
      */
     private fun initMatrix() {
-        LogUtil.d("width=$width height=$height")
+//        LogUtil.d("width=$width height=$height")
         if (width == 0 || height == 0 || backgroundBitmap == null)
             return
 

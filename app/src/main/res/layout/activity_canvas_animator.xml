@@ -13,12 +13,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_1"
-        style="@style/CommonText"
-        android:padding="20dp"
-        android:text="初始化"
+    <com.matrix.camera2.view.TestView
+        android:id="@+id/testView"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_ai_skin" />
+        app:layout_constraintTop_toBottomOf="@+id/view_ai_skin"
+        app:test_width="@dimen/text_level_1"
+        app:test_drawable="@drawable/ic_vector_learn_1"
+        app:test_color="@color/gray" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

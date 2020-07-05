@@ -28,9 +28,7 @@ class CanvasAnimatorActivity : BaseActivity() {
         view_ai_skin.post {
             view_ai_skin.initAfterMeasure(photoPath)
         }
-        tv_1.setOnClickListener{
 
-        }
 
     }
 }
