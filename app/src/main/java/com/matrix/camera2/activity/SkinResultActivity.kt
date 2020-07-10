@@ -95,10 +95,6 @@ class SkinResultActivity : BaseActivity() {
                 addItemType(CenterBean.TYPE_TAIL_HOLDER, R.layout.item_skin_result_tail)
             }
 
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-                return super.onCreateViewHolder(parent, viewType)
-            }
-
             override fun onCreateDefViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder {
                 when (viewType) {
                     CenterBean.TYPE_HEADER_HOLDER -> {
