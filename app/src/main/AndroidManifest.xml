@@ -51,9 +51,14 @@
             android:name=".activity.SkinResultActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".activity.RecyclerActivity"
+        <activity
+            android:name=".activity.RecyclerActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".activity.TableViewActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>
