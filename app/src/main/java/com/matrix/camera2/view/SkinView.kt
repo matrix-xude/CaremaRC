@@ -36,7 +36,7 @@ class SkinView : View {
         // 以下单位都是dp,使用时会转化
         const val LEFT_PADDING = 20f  // 表格距离左边的间距,用来绘制文字，滑动的最大限度
         const val RIGHT_PADDING = 20f  // 表格距离右边的间距,用来绘制文字，滑动的最大限度
-        const val TOP_PADDING = 20f  // 表格距离右边的间距,用来绘制文字
+        const val TOP_PADDING = 25f  // 表格距离右边的间距,用来绘制文字
         const val BOTTOM_PADDING = 30f  // 表格距离右边的间距,用来绘制文字
 
         const val LANDSCAPE_INTERVAL = 50f // 横向每个间隔
@@ -58,11 +58,36 @@ class SkinView : View {
     private var topPadding = 0f
     private var bottomPadding = 0f
 
+    /**
+     * 所有的数据
+     */
+    private var list = mutableListOf<SkinViewBean>()
+    private val paint = Paint() // 画笔
+    private var sumWidth = 0f // 所有的宽度
+    private var sumHeight = 0f // 所有的高度度
+    private var tableWidth = 0f // 表格的宽度
+    private var tableHeight = 0f // 表格的高度
+    private var viewWidth = 0 // view的宽度
+    private var viewHeight = 0 // view的高度
+    private var heightCount = 3 // 应该绘制的高度个数
+    private var initDataSuccess = false // 是否初始化数据成功
+    private var perIntervalScore = 0f // 每个竖向间隔表示多少分
+    private var lineColor = 0
+
     private var lastX = 0f
     private val currentMatrix = Matrix()
+    private var currentIndex = -1
 
     init {
         configParam()
+
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val width = MeasureSpec.getSize(widthMeasureSpec)
+        // 此view高度是定死的，如果需要控制，在view外部包裹viewGroup
+        val height = portraitInterval * heightCount + topPadding + bottomPadding
+        setMeasuredDimension(width, height.toInt())
     }
 
     /**
@@ -89,21 +114,6 @@ class SkinView : View {
         )
     }
 
-    /**
-     * 所有的数据
-     */
-    private var list = mutableListOf<SkinViewBean>()
-    private val paint = Paint() // 画笔
-    private var sumWidth = 0f // 所有的宽度
-    private var sumHeight = 0f // 所有的高度度
-    private var tableWidth = 0f // 表格的宽度
-    private var tableHeight = 0f // 表格的高度
-    private var viewWidth = 0 // view的宽度
-    private var viewHeight = 0 // view的高度
-    private var heightCount = 3 // 应该绘制的高度个数
-    private var initDataSuccess = false // 是否初始化数据成功
-    private var perIntervalScore = 0f // 每个竖向间隔表示多少分
-    private var lineColor = 0
 
     /**
      * 绑定绘图的数据
@@ -111,11 +121,37 @@ class SkinView : View {
     fun bindData(list: List<SkinViewBean>?) {
         initDataSuccess = false
         currentMatrix.reset()
+        currentIndex = -1
         this.list.clear()
         if (list != null) {
             this.list.addAll(list)
         }
+        visibility = if (this.list.size > 1) VISIBLE else GONE
         initData()
+    }
+
+    /**
+     * 滑动到指定位置
+     */
+    fun scrollToIndex(position: Int) {
+        if (!initDataSuccess || position >= list.size)
+            return
+        currentIndex = position
+        val targetX = viewWidth / 2  // 想要滑动指定条目到达的位置
+        val indexLeft = leftPadding + currentIndex * landscapeInterval  // 图像上距离左边的总长度
+        if (indexLeft >= targetX) {  // 可以往左滑动
+            var scrollX = targetX - indexLeft // 滑动的距离
+            val indexRight =
+                (list.size - 1 - currentIndex) * landscapeInterval + rightPadding // 图像上距离右边的总长度
+            if (indexRight < viewWidth - targetX) { // 右边长度不够时，需要修正左滑的距离
+                scrollX += viewWidth - targetX - indexRight
+            }
+            currentMatrix.reset()
+            currentMatrix.postTranslate(scrollX, 0f)
+        } else {  // 左边长度不足，不应滑动
+            currentMatrix.reset()
+        }
+        invalidate()
     }
 
     /**
@@ -159,7 +195,7 @@ class SkinView : View {
     private fun drawText(canvas: Canvas) {
         val topPaint = Paint().apply {
             isAntiAlias = true
-            color = Color.BLACK
+            color = Color.WHITE
             style = Paint.Style.FILL
             textSize =
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 8f, resources.displayMetrics)
@@ -171,31 +207,84 @@ class SkinView : View {
             textSize =
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics)
         }
+        val bottomPaint2 = Paint().apply {
+            isAntiAlias = true
+            color = Color.parseColor("#999999")
+            style = Paint.Style.FILL
+            textSize =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 8f, resources.displayMetrics)
+        }
+        val backgroundPaint = Paint().apply {
+            isAntiAlias = true
+            color = Color.BLACK
+            style = Paint.Style.FILL
+        }
 
         // 基线的Y轴坐标
         val baseLineY = topPadding + heightCount * portraitInterval
         for (index in list.indices) {
             // 分数与每个间隔的比例
             val bean = list[index]
-            val ratio = bean.score / perIntervalScore
             // 顶部文字
             if (!TextUtils.isEmpty(bean.topDesc)) {
-                val textWidth = topPaint.measureText(bean.topDesc)
+
+                val textWidth = topPaint.measureText(bean.topDesc) // 文字的宽度
+                val ratio = bean.score / perIntervalScore
+
+                val frameWidth = 8 // 文字背景上下左右外边框的距离
+                val pointY = baseLineY - (ratio * portraitInterval)  // 点圆心的位置
+                val topOffset = 40 // 文字底部距圆心的偏移量
+
+                val rectF = RectF().apply {
+                    left = leftPadding + index * landscapeInterval - textWidth / 2 - frameWidth
+                    right = leftPadding + index * landscapeInterval + textWidth / 2 + frameWidth
+                    bottom = pointY - topOffset + frameWidth
+                    // 文字绘制的上部空白比较多，frameWidth 边距上部 /2
+                    top = pointY - topOffset - topPaint.textSize - frameWidth / 2
+                }
+                canvas.drawRoundRect(rectF, 8f, 8f, backgroundPaint)
+
+                val arrowWidth = 10f
+                val arrowHeight = 10f
+                val path = Path().apply {
+                    moveTo(
+                        leftPadding + index * landscapeInterval - arrowWidth / 2,
+                        pointY - topOffset + frameWidth
+                    )
+                    rLineTo(arrowWidth, 0f)
+                    rLineTo(-arrowWidth / 2, arrowHeight)
+                    close()
+                }
+                canvas.drawPath(path, backgroundPaint)
+
                 canvas.drawText(
                     bean.topDesc!!,
                     leftPadding + index * landscapeInterval - textWidth / 2,
-                    baseLineY - (ratio * portraitInterval) - 25,
+                    pointY - topOffset,
                     topPaint
                 )
             }
             // 底部文字
             if (!TextUtils.isEmpty(bean.bottomDesc)) {
                 val textWidth = bottomPaint.measureText(bean.bottomDesc)
+                bottomPaint.color = if (index != currentIndex) Color.BLACK else lineColor
                 canvas.drawText(
                     bean.bottomDesc!!,
                     leftPadding + index * landscapeInterval - textWidth / 2,
                     baseLineY + 30,
                     bottomPaint
+                )
+            }
+            // 底部文字2
+            if (!TextUtils.isEmpty(bean.bottomDesc2)) {
+                val textWidth = bottomPaint2.measureText(bean.bottomDesc2)
+                bottomPaint2.color =
+                    if (index != currentIndex) Color.parseColor("#999999") else lineColor
+                canvas.drawText(
+                    bean.bottomDesc2!!,
+                    leftPadding + index * landscapeInterval - textWidth / 2,
+                    baseLineY + 30 + bottomPaint.textSize,
+                    bottomPaint2
                 )
             }
         }
@@ -436,5 +525,10 @@ class SkinView : View {
          * 数据下部的描述字段
          */
         var bottomDesc: String? = null
+
+        /**
+         * 数据下部的描述文字2
+         */
+        var bottomDesc2: String? = null
     }
 }

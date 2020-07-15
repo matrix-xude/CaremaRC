@@ -17,6 +17,12 @@ class TableViewActivity : BaseActivity() {
 
     override fun initData() {
         fakeData()
+        tv_set.setOnClickListener {
+            skin_view.scrollToIndex(1)
+        }
+        tv_score.setOnClickListener {
+            skin_score_view.bindData((Math.random()*100).toInt(),"高端大气")
+        }
     }
 
     private fun fakeData() {
@@ -25,6 +31,7 @@ class TableViewActivity : BaseActivity() {
             list.add(SkinView.SkinViewBean().apply {
                 score = (Math.random() * 100).toInt()
                 bottomDesc = "06/${(Math.random() * 30).toInt()}"
+                bottomDesc2 = "14:${(Math.random() * 60).toInt()}"
                 topDesc = "${score}分"
             })
         }
