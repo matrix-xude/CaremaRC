@@ -43,6 +43,9 @@ dependencies {
     // logger 工具
     implementation 'com.orhanobut:logger:2.2.0'
 
+    // 状态栏修改
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
 
     // 图片选择酷

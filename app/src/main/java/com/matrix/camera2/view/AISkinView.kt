@@ -105,10 +105,11 @@ class AISkinView : View {
         } else {
             backgroundBitmap = BitmapFactory.decodeFile(path)
             val rotateDegree = PictureUtil.getRotateDegree(path!!)
-            backgroundBitmap = PictureUtil.rotate(
-                backgroundBitmap!!, rotateDegree, backgroundBitmap!!.width / 2f
-                , backgroundBitmap!!.height / 2f, true
-            )
+            LogUtil.d("旋转了${rotateDegree}度")
+//            backgroundBitmap = PictureUtil.rotate(
+//                backgroundBitmap!!, rotateDegree, backgroundBitmap!!.width / 2f
+//                , backgroundBitmap!!.height / 2f, true
+//            )
             MIN_CIRCLE_X = backgroundBitmap!!.width * 0.2f
             MAX_CIRCLE_X = backgroundBitmap!!.width * 0.8f
             MIN_CIRCLE_Y = backgroundBitmap!!.height * 0.1f

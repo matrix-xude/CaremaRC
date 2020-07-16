@@ -18,7 +18,7 @@ class TableViewActivity : BaseActivity() {
     override fun initData() {
         fakeData()
         tv_set.setOnClickListener {
-            skin_view.scrollToIndex(1)
+            fakeData()
         }
         tv_score.setOnClickListener {
             skin_score_view.bindData((Math.random()*100).toInt(),"高端大气")

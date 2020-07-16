@@ -1,6 +1,8 @@
 package com.matrix.camera2.activity
 
 import android.os.Bundle
+import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.matrix.camera2.R
 import kotlinx.android.synthetic.main.activity_canvas_animator.*
 
@@ -11,11 +13,11 @@ import kotlinx.android.synthetic.main.activity_canvas_animator.*
  */
 class CanvasAnimatorActivity : BaseActivity() {
 
-    private var photoPath : String? = null
+    private var photoPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         photoPath = intent.getStringExtra("photoPath")
+        super.onCreate(savedInstanceState)
     }
 
     override fun getLayoutId(): Int {
@@ -29,6 +31,16 @@ class CanvasAnimatorActivity : BaseActivity() {
             view_ai_skin.initAfterMeasure(photoPath)
         }
 
+        initPhoto()
+    }
 
+    private fun initPhoto() {
+        // 路径一样，防止每次重复加载缓存
+        photoPath?.let {
+            Glide.with(this)
+                .load(it)
+                .signature(ObjectKey(System.currentTimeMillis()))
+                .into(iv_icon)
+        }
     }
 }

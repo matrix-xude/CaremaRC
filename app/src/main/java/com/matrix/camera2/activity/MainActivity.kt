@@ -9,6 +9,8 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.gyf.immersionbar.BarHide
+import com.gyf.immersionbar.ImmersionBar
 import com.matrix.camera2.R
 import com.matrix.camera2.decoration.LinearDecoration
 import com.matrix.camera2.utils.ToastUtil
@@ -59,8 +61,8 @@ class MainActivity : BaseActivity() {
                         ActivityCompat.shouldShowRequestPermissionRationale(this, "")
                     }
                     1 -> {
-//                        val intent = Intent(this@MainActivity, CameraXActivity::class.java)
-                        val intent = Intent(this@MainActivity, TableViewActivity::class.java)
+                        val intent = Intent(this@MainActivity, CameraXActivity::class.java)
+//                        val intent = Intent(this@MainActivity, TableViewActivity::class.java)
                         startActivity(intent)
                     }
                     2 -> {
