@@ -104,8 +104,9 @@ class AISkinView : View {
             MAX_CIRCLE_Y = backgroundBitmap!!.height * 0.7f
         } else {
             backgroundBitmap = BitmapFactory.decodeFile(path)
-            val rotateDegree = PictureUtil.getRotateDegree(path!!)
-            LogUtil.d("旋转了${rotateDegree}度")
+            backgroundBitmap = PictureUtil.rotateBitmap(backgroundBitmap!!,PictureUtil.getRotateOrientation(path!!))
+//            val rotateDegree = PictureUtil.getRotateDegree(path!!)
+//            LogUtil.d("旋转了${rotateDegree}度")
 //            backgroundBitmap = PictureUtil.rotate(
 //                backgroundBitmap!!, rotateDegree, backgroundBitmap!!.width / 2f
 //                , backgroundBitmap!!.height / 2f, true
@@ -123,10 +124,12 @@ class AISkinView : View {
     fun initAfterMeasure(photoPath: String?) {
 //        if (TextUtils.isEmpty(photoPath))
 //            return
-        initBitmap(photoPath)
-        initMatrix()
-        invalidate()
-        startRandom()
+        post {
+            initBitmap(photoPath)
+            initMatrix()
+            invalidate()
+            startRandom()
+        }
     }
 
     /**

@@ -27,9 +27,8 @@ class CanvasAnimatorActivity : BaseActivity() {
     override fun initView() {
         super.initView()
 
-        view_ai_skin.post {
-            view_ai_skin.initAfterMeasure(photoPath)
-        }
+        view_ai_skin.initAfterMeasure(photoPath)
+
 
         initPhoto()
     }

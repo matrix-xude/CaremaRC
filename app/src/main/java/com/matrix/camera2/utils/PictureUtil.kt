@@ -24,7 +24,8 @@ object PictureUtil {
             val exifInterface = ExifInterface(filePath)
             val orientation = exifInterface.getAttributeInt(
                 ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_NORMAL)
+                ExifInterface.ORIENTATION_NORMAL
+            )
             degree = when (orientation) {
                 ExifInterface.ORIENTATION_ROTATE_90 -> 90
                 ExifInterface.ORIENTATION_ROTATE_180 -> 180
@@ -35,6 +36,24 @@ object PictureUtil {
             e.printStackTrace()
         }
         return degree
+    }
+
+    /**
+     * 获取图片的系统判断旋转方式
+     */
+    fun getRotateOrientation(filePath: String): Int {
+        var orientation = ExifInterface.ORIENTATION_NORMAL
+        try {
+            val exifInterface = ExifInterface(filePath)
+            orientation = exifInterface.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return orientation
     }
 
     /**
@@ -71,5 +90,56 @@ object PictureUtil {
      */
     fun isEmptyBitmap(src: Bitmap?): Boolean {
         return src == null || src.width == 0 || src.height == 0
+    }
+
+    /**
+     * 根据获取到的角度旋转bitmap，最全面的旋转方法
+     */
+    fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
+
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL ->
+                return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL ->
+                matrix.setScale(-1f, 1f)
+
+            ExifInterface.ORIENTATION_ROTATE_180 ->
+                matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 ->
+                matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 ->
+                matrix.setRotate(-90f)
+            else ->
+                return bitmap
+        }
+        try {
+            val bmRotated = Bitmap.createBitmap(
+                bitmap,
+                0,
+                0,
+                bitmap.width,
+                bitmap.height,
+                matrix,
+                true
+            )
+            bitmap.recycle()
+            return bmRotated
+        } catch (e: OutOfMemoryError) {
+            e.printStackTrace()
+            return null
+        }
     }
 }
